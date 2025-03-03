@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
 body {
   margin: 0;
   padding: 0;
@@ -15,4 +17,10 @@ body {
 .imgUno{
   margin-bottom: 50px;
   height: 100px;
+}
+
+.listeJoueurs p{
+  color: white;
+  font-family: "Rubik", serif;
+  font-size: 1.5em;
 }
