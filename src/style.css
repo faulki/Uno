@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #222222;
+}
+
+#app {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.imgUno{
+  margin-bottom: 50px;
+  height: 100px;
+}
