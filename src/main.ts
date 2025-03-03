@@ -2,7 +2,7 @@ import {io} from "socket.io-client";
 
 const socket = io("http://localhost:3000/");
 var pseudo: string | any[];
-// let listPlayer;
+let listPlayer = document.getElementById("listPlayer");
 let verify = false;
 
 // let players[] = socket.on('updatePLayers', player)
@@ -25,6 +25,7 @@ document.getElementById('joinGame')!.addEventListener("click", function(){
   }
   else {
     socket.emit('joinGame', (pseudo))
+    listPlayer!.innerHTML = "";
     verify = true;
   }
 })
@@ -39,6 +40,9 @@ document.getElementById('ready')!.addEventListener("click", function(){
 socket.on('updatePlayers', (players) => {
   for (let i = 0; i < players.length; i++) {
     console.log(players[i].name);
-    document.getElementById('listPlayer')!.innerHTML = "<p>" + players[i].name + " joined the game</p>";
+    const element = document.createElement('p');
+    element.innerHTML = "<p>" + players[i].name + " joined the game</p>";
+    listPlayer!.appendChild(element);
+    // document.getElementById('listPlayer')!.innerHTML += "<p>" + players[i].name + " joined the game</p>";
   }
 })
