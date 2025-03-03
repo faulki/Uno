@@ -3,6 +3,7 @@ import {io} from "socket.io-client";
 const socket = io("http://localhost:3000/");
 var pseudo: string | any[];
 let listPlayer;
+let verify = false;
 
 // let players[] = socket.on('updatePLayers', player)
 
@@ -25,7 +26,12 @@ document.getElementById('joinGame')!.addEventListener("click", function(){
   }
   else {
     socket.emit('joinGame', (pseudo))
+    verify = true;
   }
 })
 
-listPlayer?.textContent = socket.emit
+document.getElementById('ready')!.addEventListener("click", function(){
+  if (verify) {
+    socket.emit('playerReady');
+  }
+})
