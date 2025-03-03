@@ -25,7 +25,6 @@ document.getElementById('joinGame')!.addEventListener("click", function(){
   }
   else {
     socket.emit('joinGame', (pseudo))
-    listPlayer!.innerHTML = "";
     verify = true;
   }
 })
@@ -38,6 +37,7 @@ document.getElementById('ready')!.addEventListener("click", function(){
 })
 
 socket.on('updatePlayers', (players) => {
+  listPlayer!.innerHTML = "";
   for (let i = 0; i < players.length; i++) {
     console.log(players[i].name);
     const element = document.createElement('p');
