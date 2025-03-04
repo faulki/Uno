@@ -75,17 +75,17 @@ socket.on('updatePlayers', (players) => {
       buttonStart.disabled = false;
     }
 
-    buttonStart.onclick = function() {
-      
-      for (let j = 0; j < players[i].hand.length; j++) {
-        console.log("carte ajoutée")
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.innerHTML = "<p class='cardNumber'>"+ players[i].hand[j].value +"</p>"
-        card.style.backgroundColor = players[i].hand[j].color;
-        cardContainer?.appendChild(card);
-        }
-    }
+    buttonStart.addEventListener("click", (e) => {  
+          for (let j = 0; j < players[i].hand.length; j++) {
+            console.log("carte ajoutée")
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.innerHTML = "<p class='cardNumber'>"+ players[i].hand[j].value +"</p>"
+            card.style.backgroundColor = players[i].hand[j].color;
+            cardContainer?.appendChild(card);
+            }
+          console.log(players[i])
+      })
     // document.getElementById('listPlayer')!.innerHTML += "<p>" + players[i].name + " joined the game</p>";
   }
 })

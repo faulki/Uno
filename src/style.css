@@ -26,6 +26,7 @@ body {
 }
 
 .card {
+  color: white;
   width:116px;height:178px;float:left;
   background:#fff;
   border-radius:5px;
