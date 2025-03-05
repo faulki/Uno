@@ -22,6 +22,20 @@ document.getElementById('pseudo')!.addEventListener('input', function(event) {
   pseudo = element.value;
 });
 
+function createCard(object: any) {
+  for (let i = 0; i < object.players.length; i++) {
+    for (let j = 0; j < object.players[i].hand.length; j++) {
+      console.log("carte ajoutée")
+      const card = document.createElement("div");
+      card.classList.add("card");
+      card.innerHTML = "<p class='cardNumber'>"+ object.players[i].hand[j].value +"</p>"
+      card.style.backgroundColor = object.players[i].hand[j].color;
+      cardContainer?.appendChild(card);
+      }
+  }
+  console.log(object)
+}
+
 
 //fonction pour faire rejoindre le joueur 
 document.getElementById('joinGame')!.addEventListener("click", function(){
@@ -73,19 +87,13 @@ socket.on('updatePlayers', (players) => {
 
     if (numberPlayerReady >= 2) {
       buttonStart.disabled = false;
-    }
+      socket.on('gameStart', createCard);
 
-    buttonStart.addEventListener("click", (e) => {  
-          for (let j = 0; j < players[i].hand.length; j++) {
-            console.log("carte ajoutée")
-            const card = document.createElement("div");
-            card.classList.add("card");
-            card.innerHTML = "<p class='cardNumber'>"+ players[i].hand[j].value +"</p>"
-            card.style.backgroundColor = players[i].hand[j].color;
-            cardContainer?.appendChild(card);
-            }
-          console.log(players[i])
+      buttonStart.addEventListener("click", (e) => {  
+        console.log("entré");
+        
       })
+    }
     // document.getElementById('listPlayer')!.innerHTML += "<p>" + players[i].name + " joined the game</p>";
   }
 })
