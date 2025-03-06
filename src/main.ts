@@ -62,7 +62,7 @@ function createCard(object: any) {
 
           const card = document.createElement("div");
           card.classList.add("card", "hidden"); // Ajout d'une classe pour l'animation
-          card.innerHTML = "<p class='cardNumber'>" + object.players[i].hand[j].value + "</p>";
+          card.innerHTML = "<p class='"+ j +"'>" + object.players[i].hand[j].value + "</p>";
           card.style.backgroundColor = object.players[i].hand[j].color;
           cardContainer?.appendChild(card);
 
@@ -77,6 +77,7 @@ function createCard(object: any) {
         }
       }
     }
+
   }, 2000); // Délai avant de cacher l'animation et afficher les cartes
 }
 
