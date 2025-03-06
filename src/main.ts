@@ -23,22 +23,38 @@ document.getElementById('pseudo')!.addEventListener('input', function (event) {
 });
 
 function createCard(object: any) {
-  console.log("create Card")
-  console.log(object.players)
-  console.log(socket.id)
-  for (let i = 0; i < object.players.length; i++) {
-    if (object.players[i].id === socket.id) {
-      for (let j = 0; j < object.players.hand.length; j++) {
-        console.log("carte ajoutée")
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.innerHTML = "<p class='cardNumber'>" + object.players.hand[j].value + "</p>"
-        card.style.backgroundColor = object.players.hand[j].color;
-        cardContainer?.appendChild(card);
+  console.log("create Card");
+  console.log(object.players);
+  console.log(socket.id);
+
+  // Afficher l'écran de chargement
+  const loadingScreen = document.getElementById("loadingScreen");
+  loadingScreen!.style.display = "flex";
+
+  setTimeout(() => {
+    // Masquer l'écran de chargement après 2 secondes
+    loadingScreen!.style.display = "none";
+
+    for (let i = 0; i < object.players.length; i++) {
+      if (object.players[i].id === socket.id) {
+        for (let j = 0; j < object.players[i].hand.length; j++) {
+          console.log("carte ajoutée");
+
+          const card = document.createElement("div");
+          card.classList.add("card", "hidden"); // Ajout d'une classe pour l'animation
+          card.innerHTML = "<p class='cardNumber'>" + object.players[i].hand[j].value + "</p>";
+          card.style.backgroundColor = object.players[i].hand[j].color;
+          cardContainer?.appendChild(card);
+
+          // Déclencher l'animation après un léger délai
+          setTimeout(() => {
+            card.classList.remove("hidden");
+            card.classList.add("fade-in");
+          }, j * 300); // Décalage progressif pour chaque carte
+        }
       }
-      console.log(object)
     }
-  }
+  }, 2000); // Délai avant de cacher l'animation et afficher les cartes
 }
 
 
