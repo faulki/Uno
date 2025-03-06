@@ -49,6 +49,12 @@ body {
   box-shadow:0 0 10px #aaaaaa;
   text-align:center;
   position:relative;
+  cursor: pointer;
+  animation: 1s ease-in;
+}
+
+.card:hover{
+  transform: translate(0px, -50px);
 }
 
 .cardContainer {

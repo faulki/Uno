@@ -24,6 +24,14 @@ document.getElementById('pseudo')!.addEventListener('input', function (event) {
   pseudo = element.value;
 });
 
+function listenForLeaveGame() {
+  leaveButton.addEventListener("click", leaveGame)
+}
+
+function leaveGame() {
+  socket.emit('disconnect');
+}
+
 function createCard(object: any) {
   console.log("create Card");
   console.log(object.players);
@@ -124,6 +132,7 @@ socket.on('updatePlayers', (players: any) => {
 })
 
 socket.on('gameStart', createCard);
+socket.on('listenForLeaveGame', listenForLeaveGame);
 
 if (numberPlayerReady >= 2) {
   buttonStart.disabled = false;
