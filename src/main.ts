@@ -8,6 +8,8 @@ let verify = false;
 let buttonReady = false;
 let numberPlayerReady = 0;
 let buttonStart = document.getElementById("start") as HTMLButtonElement;
+let inputName = document.getElementById("inputName") as HTMLInputElement;
+let leaveButton = document.getElementById("leave") as HTMLButtonElement;
 buttonStart.disabled = true;
 
 // let players[] = socket.on('updatePLayers', player)
@@ -27,13 +29,17 @@ function createCard(object: any) {
   console.log(object.players);
   console.log(socket.id);
 
-  // Afficher l'écran de chargement
+  // Rendre l'écran de chargement visible UNIQUEMENT quand createCard() est appelée
   const loadingScreen = document.getElementById("loadingScreen");
-  loadingScreen!.style.display = "flex";
+  if (loadingScreen) {
+    loadingScreen.style.display = "flex";
+  }
 
   setTimeout(() => {
     // Masquer l'écran de chargement après 2 secondes
-    loadingScreen!.style.display = "none";
+    if (loadingScreen) {
+      loadingScreen.style.display = "none";
+    }
 
     for (let i = 0; i < object.players.length; i++) {
       if (object.players[i].id === socket.id) {
@@ -46,6 +52,9 @@ function createCard(object: any) {
           card.style.backgroundColor = object.players[i].hand[j].color;
           cardContainer?.appendChild(card);
 
+          inputName.classList.add("hidden");
+          listPlayer!.innerHTML = "";
+
           // Déclencher l'animation après un léger délai
           setTimeout(() => {
             card.classList.remove("hidden");
@@ -56,6 +65,7 @@ function createCard(object: any) {
     }
   }, 2000); // Délai avant de cacher l'animation et afficher les cartes
 }
+
 
 
 
@@ -117,9 +127,5 @@ socket.on('gameStart', createCard);
 
 if (numberPlayerReady >= 2) {
   buttonStart.disabled = false;
-
   console.log("2 joueurs sont prêts")
-  // buttonStart.addEventListener("click", (e) => {  
-  //   console.log("entré");
-  // })
 }
