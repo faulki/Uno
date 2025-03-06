@@ -4,6 +4,7 @@ const socket = io("http://localhost:3000/");
 var pseudo: string | any[];
 let listPlayer = document.getElementById("listPlayer");
 let cardContainer = document.getElementById("cardContainer")
+let discardPileContainer = document.getElementById("discardPileContainer");
 let verify = false;
 let buttonReady = false;
 let numberPlayerReady = 0;
@@ -24,9 +25,7 @@ document.getElementById('pseudo')!.addEventListener('input', function (event) {
   pseudo = element.value;
 });
 
-function listenForLeaveGame() {
-  leaveButton.addEventListener("click", leaveGame)
-}
+leaveButton.addEventListener("click", leaveGame)
 
 function leaveGame() {
   socket.emit('disconnect');
@@ -36,6 +35,7 @@ function createCard(object: any) {
   console.log("create Card");
   console.log(object.players);
   console.log(socket.id);
+  console.log(object.discardPile)
 
   // Rendre l'écran de chargement visible UNIQUEMENT quand createCard() est appelée
   const loadingScreen = document.getElementById("loadingScreen");
@@ -48,6 +48,12 @@ function createCard(object: any) {
     if (loadingScreen) {
       loadingScreen.style.display = "none";
     }
+
+    const discardPileDiv = document.createElement('div')
+    discardPileDiv.classList.add("discardPile", "cardDiscardPile")
+    discardPileDiv.innerHTML = "<p class='cardNumber'>" + object.discardPile[0].value + "</p>";
+    discardPileDiv.style.backgroundColor = object.discardPile[0].color;
+    discardPileContainer?.appendChild(discardPileDiv);
 
     for (let i = 0; i < object.players.length; i++) {
       if (object.players[i].id === socket.id) {
@@ -132,7 +138,6 @@ socket.on('updatePlayers', (players: any) => {
 })
 
 socket.on('gameStart', createCard);
-socket.on('listenForLeaveGame', listenForLeaveGame);
 
 if (numberPlayerReady >= 2) {
   buttonStart.disabled = false;

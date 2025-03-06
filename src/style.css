@@ -25,7 +25,7 @@ body {
   font-size: 1.5em;
 }
 
-.card {
+.card, .cardDiscardPile{
   color: white;
   width:116px;height:178px;float:left;
   background:#fff;
@@ -49,7 +49,6 @@ body {
   box-shadow:0 0 10px #aaaaaa;
   text-align:center;
   position:relative;
-  cursor: pointer;
   animation: 1s ease-in;
 }
 
@@ -116,4 +115,13 @@ body {
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
   opacity: 1;
   transform: translateY(0);
+}
+
+#leave {
+  margin-top: 20px;
+}
+
+.discardPileContainer {
+  display: flex;
+  justify-content: center;
 }
