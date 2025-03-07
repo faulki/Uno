@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 const socket = io("http://localhost:3000/");
 var pseudo: string | any[];
 let listPlayer = document.getElementById("listPlayer");
-let cardContainer = document.getElementById("cardContainer")
+let cardContainer = document.getElementById("cardContainer");
 let discardPileContainer = document.getElementById("discardPileContainer");
 let verify = false;
 let buttonReady = false;
@@ -41,8 +41,8 @@ function createCard(object: any) {
   const playerTurn = document.createElement('div');
     playerTurn.classList.add("playerTurn");
     playerTurn.innerHTML = "<p>Tour de :"+ object.players[object.currentPlayer].name +"</p>";
-    playerTurnContainer?.appendChild(playerTurn)
-    console.log(object.players[object.currentPlayer].name)
+    playerTurnContainer?.appendChild(playerTurn);
+    console.log(object.players[object.currentPlayer].name);
 
   // Rendre l'écran de chargement visible UNIQUEMENT quand createCard() est appelée
   const loadingScreen = document.getElementById("loadingScreen");
@@ -67,16 +67,17 @@ function createCard(object: any) {
         for (let j = 0; j < object.players[i].hand.length; j++) {
           console.log("carte ajoutée");
 
-          const card = document.createElement("div");
-          card.classList.add("card", "hidden"); // Ajout d'une classe pour l'animation
-          card.id = String(j);
-          card.innerHTML = "<p>" + object.players[i].hand[j].value + "</p>";
-          card.style.backgroundColor = object.players[i].hand[j].color;
-          card.addEventListener('click', function() {
-            console.log("carte clickée", object.players[i].hand[j])
-            socket.emit('playCard', object.players[i].hand[j])
+          const cardHTML = document.createElement("div");
+          cardHTML.classList.add("card", "hidden"); // Ajout d'une classe pour l'animation
+          cardHTML.id = String(j);
+          cardHTML.innerHTML = "<p>" + object.players[i].hand[j].value + "</p>";
+          cardHTML.style.backgroundColor = object.players[i].hand[j].color;
+          cardHTML.addEventListener('click', function() {
+            const card = object.players[i].hand[j];
+            console.log("carte clickée", card);
+            socket.emit('playCard', card);
           })
-          cardContainer?.appendChild(card);
+          cardContainer?.appendChild(cardHTML);
 
           
 
@@ -84,8 +85,8 @@ function createCard(object: any) {
           listPlayer!.innerHTML = "";
 
           setTimeout(() => {
-            card.classList.remove("hidden");
-            card.classList.add("fade-in");
+            cardHTML.classList.remove("hidden");
+            cardHTML.classList.add("fade-in");
           }, j * 300);
         }
       }
@@ -93,12 +94,6 @@ function createCard(object: any) {
 
   }, 2000); // Délai avant de cacher l'animation et afficher les cartes
 }
-
-function playCard(object: any) {
-  console.log("playCard")
-}
-
-
 
 
 //fonction pour faire rejoindre le joueur 
