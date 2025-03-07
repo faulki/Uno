@@ -11,6 +11,7 @@ let numberPlayerReady = 0;
 let buttonStart = document.getElementById("start") as HTMLButtonElement;
 let inputName = document.getElementById("inputName") as HTMLInputElement;
 let leaveButton = document.getElementById("leave") as HTMLButtonElement;
+let playerTurnContainer = document.getElementById("playerTurnContainer");
 buttonStart.disabled = true;
 
 // let players[] = socket.on('updatePLayers', player)
@@ -37,6 +38,12 @@ function createCard(object: any) {
   console.log(socket.id);
   console.log(object.discardPile)
 
+  const playerTurn = document.createElement('div');
+    playerTurn.classList.add("playerTurn");
+    playerTurn.innerHTML = "<p>Tour de :"+ object.players[object.currentPlayer].name +"</p>";
+    playerTurnContainer?.appendChild(playerTurn)
+    console.log(object.players[object.currentPlayer].name)
+
   // Rendre l'écran de chargement visible UNIQUEMENT quand createCard() est appelée
   const loadingScreen = document.getElementById("loadingScreen");
   if (loadingScreen) {
@@ -49,8 +56,8 @@ function createCard(object: any) {
       loadingScreen.style.display = "none";
     }
 
-    const discardPileDiv = document.createElement('div')
-    discardPileDiv.classList.add("discardPile", "cardDiscardPile")
+    const discardPileDiv = document.createElement('div');
+    discardPileDiv.classList.add("discardPile", "cardDiscardPile");
     discardPileDiv.innerHTML = "<p class='cardNumber'>" + object.discardPile[0].value + "</p>";
     discardPileDiv.style.backgroundColor = object.discardPile[0].color;
     discardPileContainer?.appendChild(discardPileDiv);
@@ -62,23 +69,33 @@ function createCard(object: any) {
 
           const card = document.createElement("div");
           card.classList.add("card", "hidden"); // Ajout d'une classe pour l'animation
-          card.innerHTML = "<p class='"+ j +"'>" + object.players[i].hand[j].value + "</p>";
+          card.id = String(j);
+          card.innerHTML = "<p>" + object.players[i].hand[j].value + "</p>";
           card.style.backgroundColor = object.players[i].hand[j].color;
+          card.addEventListener('click', function() {
+            console.log("carte clickée", object.players[i].hand[j])
+            socket.emit('playCard', object.players[i].hand[j])
+          })
           cardContainer?.appendChild(card);
+
+          
 
           inputName.classList.add("hidden");
           listPlayer!.innerHTML = "";
 
-          // Déclencher l'animation après un léger délai
           setTimeout(() => {
             card.classList.remove("hidden");
             card.classList.add("fade-in");
-          }, j * 300); // Décalage progressif pour chaque carte
+          }, j * 300);
         }
       }
     }
 
   }, 2000); // Délai avant de cacher l'animation et afficher les cartes
+}
+
+function playCard(object: any) {
+  console.log("playCard")
 }
 
 
@@ -138,9 +155,13 @@ socket.on('updatePlayers', (players: any) => {
 
 })
 
+// oneCard.addEventListener("click", function() {
+//   socket.emit('playCard', playCard)
+// })
+
 socket.on('gameStart', createCard);
 
 if (numberPlayerReady >= 2) {
   buttonStart.disabled = false;
-  console.log("2 joueurs sont prêts")
+  console.log("2 joueurs sont prêts");
 }
